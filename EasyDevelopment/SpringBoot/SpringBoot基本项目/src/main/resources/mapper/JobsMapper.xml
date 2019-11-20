@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yy.mapper.JobsMapper">
+  <resultMap id="BaseResultMap" type="com.yy.pojo.Jobs">
+    <id column="JOB_ID" jdbcType="VARCHAR" property="jobId" />
+    <result column="JOB_TITLE" jdbcType="VARCHAR" property="jobTitle" />
+    <result column="MIN_SALARY" jdbcType="NUMERIC" property="minSalary" />
+    <result column="MAX_SALARY" jdbcType="NUMERIC" property="maxSalary" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    JOB_ID, JOB_TITLE, MIN_SALARY, MAX_SALARY
+  </sql>
+  <select id="selectByExample" parameterType="com.yy.pojo.JobsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from JOBS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from JOBS
+    where JOB_ID = #{jobId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from JOBS
+    where JOB_ID = #{jobId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yy.pojo.JobsExample">
+    delete from JOBS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yy.pojo.Jobs">
+    insert into JOBS (JOB_ID, JOB_TITLE, MIN_SALARY, 
+      MAX_SALARY)
+    values (#{jobId,jdbcType=VARCHAR}, #{jobTitle,jdbcType=VARCHAR}, #{minSalary,jdbcType=NUMERIC}, 
+      #{maxSalary,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yy.pojo.Jobs">
+    insert into JOBS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jobId != null">
+        JOB_ID,
+      </if>
+      <if test="jobTitle != null">
+        JOB_TITLE,
+      </if>
+      <if test="minSalary != null">
+        MIN_SALARY,
+      </if>
+      <if test="maxSalary != null">
+        MAX_SALARY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jobId != null">
+        #{jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobTitle != null">
+        #{jobTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="minSalary != null">
+        #{minSalary,jdbcType=NUMERIC},
+      </if>
+      <if test="maxSalary != null">
+        #{maxSalary,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yy.pojo.JobsExample" resultType="java.lang.Long">
+    select count(*) from JOBS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update JOBS
+    <set>
+      <if test="record.jobId != null">
+        JOB_ID = #{record.jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobTitle != null">
+        JOB_TITLE = #{record.jobTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.minSalary != null">
+        MIN_SALARY = #{record.minSalary,jdbcType=NUMERIC},
+      </if>
+      <if test="record.maxSalary != null">
+        MAX_SALARY = #{record.maxSalary,jdbcType=NUMERIC},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update JOBS
+    set JOB_ID = #{record.jobId,jdbcType=VARCHAR},
+      JOB_TITLE = #{record.jobTitle,jdbcType=VARCHAR},
+      MIN_SALARY = #{record.minSalary,jdbcType=NUMERIC},
+      MAX_SALARY = #{record.maxSalary,jdbcType=NUMERIC}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yy.pojo.Jobs">
+    update JOBS
+    <set>
+      <if test="jobTitle != null">
+        JOB_TITLE = #{jobTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="minSalary != null">
+        MIN_SALARY = #{minSalary,jdbcType=NUMERIC},
+      </if>
+      <if test="maxSalary != null">
+        MAX_SALARY = #{maxSalary,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where JOB_ID = #{jobId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yy.pojo.Jobs">
+    update JOBS
+    set JOB_TITLE = #{jobTitle,jdbcType=VARCHAR},
+      MIN_SALARY = #{minSalary,jdbcType=NUMERIC},
+      MAX_SALARY = #{maxSalary,jdbcType=NUMERIC}
+    where JOB_ID = #{jobId,jdbcType=VARCHAR}
+  </update>
+</mapper>

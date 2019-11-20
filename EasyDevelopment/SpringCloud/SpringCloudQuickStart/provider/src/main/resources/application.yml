@@ -1,0 +1,11 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: provider-01   #服务名必须要有
+eureka:
+  instance:
+    prefer-ip-address: true #注册服务时使用服务的IP地址
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  #将此服务注册到地址http://localhost:8761/eureka/

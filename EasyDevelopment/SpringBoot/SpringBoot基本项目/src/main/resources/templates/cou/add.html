@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>Dashboard Template for Bootstrap</title>
+		<!-- Bootstrap core CSS -->
+		<link  th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link  th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+	<div th:replace="commons/bar :: top"></div>
+
+		<div class="container-fluid">
+			<div class="row">
+				<div th:replace="commons/bar :: left"></div>
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <form th:action="@{/countries/cou}" method="post">
+                    <!--发送put请求修改员工数据-->
+                    <!--
+                1、SpringMVC中配置HiddenHttpMethodFilter;（SpringBoot自动配置好的）
+                2、页面创建一个post表单
+                3、创建一个input项，name="_method";值就是我们指定的请求方式
+                -->
+                    <input type="hidden" name="_method" value="put" th:if="${cou!=null}"/>
+                    <input type="hidden" name="id" th:if="${cou!=null}" th:value="${cou.countryId}">
+                    <div class="form-group">
+                        <label>countryId</label>
+						<!--th:readonly="${cou!=null}?readonly"实现是否只是可读-->
+                        <input name="countryId" th:value="${cou!=null}?${cou.countryId}" th:readonly="${cou!=null}?readonly"  id="countryId"  type="text" class="form-control" placeholder="1">
+                    </div>
+                    <div class="form-group">
+                        <label>countryName</label>
+                        <input th:value="${cou!=null}?${cou.countryName}" name="countryName"  class="form-control" placeholder="China">
+                    </div>
+					<div class="form-group">
+						<label>region</label>
+						<select class="form-control" name="regionId">
+							<option th:selected="${cou!=null}?${reg.regionId == cou.regionId}"
+									th:value="${reg.regionId}" th:each="reg:${regs}" th:text="${reg.regionName}">1</option>
+						</select>
+					</div>
+                    <button type="submit" th:text="${cou!=null}?'修改':'添加'" class="btn btn-primary">添加</button>
+                </form>
+                </main>
+			</div>
+		</div>
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="asserts/js/jquery-3.2.1.slim.min.js"></script>
+		<!--<script type="text/javascript" src="asserts/js/popper.min.js"></script>-->
+		<script type="text/javascript" src="asserts/js/bootstrap.min.js"></script>
+	</body>
+
+</html>

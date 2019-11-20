@@ -1,0 +1,1 @@
+使用了thymeleaf,restful风格编程,使用的ORACLE数据库并且整合了Druid,Mybatis,做了登录页面的国际化
